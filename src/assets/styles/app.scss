@@ -1,2 +1,27 @@
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-@import 'node_modules/bootstrap-vue/src/index.scss';
+@import url('https://fonts.googleapis.com/css2?family=Rubik&family=Spectral:wght@700&display=swap');
+
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+
+// stylelint-disable value-keyword-case
+$font-family-sans-serif:      system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+// $headings-margin-bottom:      $spacer / 2 !default;
+$headings-font-family:        $font-family-sans-serif;
+// $headings-font-style:         null !default;
+$headings-font-weight:        800;
+$headings-line-height:        1.2;
+// $headings-color:              null !default;
+
+$border-radius:               1px;
+$border-radius-sm:            1px;
+$border-radius-lg:            6px;
+$border-radius-pill:          50rem;
+
+$border-width:                2px;
+
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootstrap-vue/src/index';

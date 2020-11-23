@@ -15,17 +15,34 @@
         <h1>Covid Charts</h1>
         <p>A website for some interactive charts, based on the CovidTracking website's API.</p>
 
-        <b-form-group label="Rolling average:" class="mb-5 mt-1">
-           <b-form-radio-group
-             id="btn-radios-1"
-             v-model="rollingAverage"
-             :options="rollingAverageOptions"
-             buttons
-             button-variant="outline-primary"
-             size="sm"
-             name="radios-btn-default"
-           ></b-form-radio-group>
-        </b-form-group>
+        <div id="filters" class="d-flex flex-start">
+          <b-form-group label="Rolling average:" class="mb-5 mt-1">
+             <b-form-radio-group
+               id="btn-radios-1"
+               v-model="rollingAverage"
+               :options="rollingAverageOptions"
+               buttons
+               button-variant="outline-dark"
+               size="md"
+               name="radios-btn-default"
+             ></b-form-radio-group>
+          </b-form-group>
+
+          <div class="d-flex ml-4 mt-1">
+            <b-form-group class="mr-2" label-for="input-horizontal" label="Start:">
+              <b-form-datepicker
+                id="start-datepicker"
+                v-model="dateRange.start"
+              ></b-form-datepicker>
+            </b-form-group>
+            <b-form-group label-for="input-horizontal" label="End:">
+              <b-form-datepicker
+                id="end-datepicker"
+                v-model="dateRange.end"
+              ></b-form-datepicker>
+            </b-form-group>
+          </div>
+        </div>
 
         <div id="positivity-rate" class="chart-card">
           <b-card title="Test Positivity Rate">
@@ -90,7 +107,8 @@ export default {
       'loaded'
     ]),
     ...mapFields([
-      'rollingAverage'
+      'rollingAverage',
+      'dateRange'
     ]),
     ...mapGetters([
       'hospitalizedCurrentlyData',
