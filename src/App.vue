@@ -1,28 +1,18 @@
 <template>
   <div id="app" class="container-fluid">
-    <div class="row">
-      <div id="left-sidebar" class="col-2 mt-n5">
-        <div class="sticky-top pt-5">
-          <strong>Jump to:</strong>
-          <ul class="nav side-nav">
-            <li class="nav-item">Positivity Rate</li>
-            <li class="nav-item">Hospitalizations</li>
-            <li class="nav-item">Daily Deaths</li>
-          </ul>
-        </div>
-      </div>
+    <div class="row bg-dark text-light mb-5">
       <div id="main" class="col-9">
         <h1>Covid Charts</h1>
         <p>A website for some interactive charts, based on the CovidTracking website's API.</p>
 
         <div id="filters" class="d-flex flex-start">
-          <b-form-group label="Rolling average:" class="mb-5 mt-1">
+          <b-form-group label="Rolling average:" class="mb-1 mt-1">
              <b-form-radio-group
                id="btn-radios-1"
                v-model="rollingAverage"
                :options="rollingAverageOptions"
                buttons
-               button-variant="outline-dark"
+               button-variant="outline-light"
                size="md"
                name="radios-btn-default"
              ></b-form-radio-group>
@@ -43,8 +33,21 @@
             </b-form-group>
           </div>
         </div>
+      </div>
+    </div>
 
-
+    <div class="row">
+      <div id="left-sidebar" class="col-2">
+        <div class="sticky-top">
+          <strong>Jump to:</strong>
+          <ul class="nav side-nav">
+            <li class="nav-item">Positivity Rate</li>
+            <li class="nav-item">Hospitalizations</li>
+            <li class="nav-item">Daily Deaths</li>
+          </ul>
+        </div>
+      </div>
+      <div class="charts col-10">
         <div class="row">
           <div id="positivity-rate" class="col-6 chart-card">
             <b-card title="Test Positivity Rate">
@@ -66,14 +69,14 @@
             </b-card>
           </div>
           <div id="deaths" class="col-6 chart-card">
-          <b-card title="Daily Deaths">
-            <LineChart
-              v-if="loaded"
-              :chart-data="dailyDeathsChartData"
-              :chart-dates="filteredDates"
-            />
-          </b-card>
-        </div>
+        <b-card title="Daily Deaths">
+          <LineChart
+            v-if="loaded"
+            :chart-data="dailyDeathsChartData"
+            :chart-dates="filteredDates"
+          />
+        </b-card>
+      </div>
         </div>
       </div>
     </div>
@@ -170,8 +173,17 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #2c3e50;
-  margin: 30px;
-  margin-top: 60px;
+  /* margin: 30px; */
+}
+
+
+#left-sidebar .sticky-top {
+  top: 280px;
+  padding-left: 17px;
+}
+
+#main {
+  padding: 30px;
 }
 
 .side-nav {
