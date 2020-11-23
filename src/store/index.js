@@ -44,6 +44,23 @@ export const store = new Vuex.Store({
         return start <= day.date && day.date <= end
       })
     },
+    dailyNewCasesData: (state, getters) => {
+      return map(getters.filteredData, (day) => {
+        return day.positiveIncrease
+      })
+    },
+    dailyNewCasesRAData: (state, getters) => {
+      if (state.rollingAverage == 0) return null
+
+      return map(getters.filteredData, (day) => {
+        // Find the index of current day in the unfiltered range
+        const index = findIndex(state.data, day)
+        const values = map(state.data.slice(index - state.rollingAverage, index), (day) => {
+          return day.positiveIncrease
+        })
+        return rollingAvg(values)
+      })
+    },
     positivityRateData: (state, getters) => {
       return map(getters.filteredData, (day) => {
         return round((day.positiveIncrease / day.totalTestResultsIncrease) * 100, 2)

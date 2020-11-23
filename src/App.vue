@@ -5,6 +5,9 @@
         <h1>Covid Charts</h1>
         <p class="lead">Interactive charts using CovidTracking.com's new API.</p>
       </div>
+      <div class="col-3">
+
+      </div>
     </div>
     <div class="row bg-dark text-light px-4 py-3 mb-4 sticky-top">
       <div id="filters" class="col-12">
@@ -64,17 +67,26 @@
         </div>
       </div>
       <div class="charts col-10">
+        <h3 class="mb-4">Daily Numbers</h3>
         <div class="row">
-          <div id="positivity-rate" class="col-6 chart-card">
-            <b-card title="Test Positivity Rate">
+          <div id="deaths" class="col-6 chart-card">
+            <b-card title="Cases">
               <LineChart
                 v-if="loaded"
-                :chart-data="positivityRateChartData"
+                :chart-data="dailyNewCasesChartData"
                 :chart-dates="filteredDates"
               />
             </b-card>
           </div>
-          <!-- cases (increase), hospitalizations (current), deaths (increases) -->
+          <div id="deaths" class="col-6 chart-card">
+            <b-card title="Deaths">
+              <LineChart
+                v-if="loaded"
+                :chart-data="dailyDeathsChartData"
+                :chart-dates="filteredDates"
+              />
+            </b-card>
+          </div>
           <div id="hospitalizations" class="col-6 chart-card">
             <b-card title="Hospitalizations">
               <LineChart
@@ -84,15 +96,19 @@
               />
             </b-card>
           </div>
-          <div id="deaths" class="col-6 chart-card">
-        <b-card title="Daily Deaths">
-          <LineChart
-            v-if="loaded"
-            :chart-data="dailyDeathsChartData"
-            :chart-dates="filteredDates"
-          />
-        </b-card>
-      </div>
+        </div>
+        <h3 class="mb-4 mt-5">Calculated Metrics</h3>
+        <div class="row">
+          <!-- cases (increase), hospitalizations (current), deaths (increases) -->
+          <div id="positivity-rate" class="col-6 chart-card">
+            <b-card title="Test Positivity Rate">
+              <LineChart
+                v-if="loaded"
+                :chart-data="positivityRateChartData"
+                :chart-dates="filteredDates"
+              />
+            </b-card>
+          </div>
         </div>
       </div>
     </div>
@@ -175,10 +191,11 @@ export default {
     ]),
     ...mapGetters([
       'filteredDates',
-      'filteredData',
-      'hospitalizedCurrentlyData',
-      'hospitalizedCurrentlyRAData',
+      'filteredData'
     ]),
+    dailyNewCasesChartData() {
+      return this.getChartData('dailyNewCases', '#994857', 'Daily New Cases')
+    },
     dailyDeathsChartData() {
       return this.getChartData('dailyDeaths', '#29272b', 'Daily Deaths')
     },
