@@ -130,7 +130,7 @@ export const store = new Vuex.Store({
         // Find the index of current day in the unfiltered range
         const index = findIndex(threeWeeksAgo, day)
         const values = map(threeWeeksAgo.slice(index - 7, index), (day) => {
-          return day?.y ? day.y : null
+          return day?.y ? day.y : NaN
           // TODO: remove y-values that are 0
         })
         return rollingAvg(values)

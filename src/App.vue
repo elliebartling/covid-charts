@@ -102,6 +102,7 @@
           <!-- cases (increase), hospitalizations (current), deaths (increases) -->
           <div id="positivity-rate" class="col-6 chart-card">
             <b-card title="Test Positivity Rate">
+              <p class="lead">The ratio of new positive tests to the total number of new tests.</p>
               <LineChart
                 v-if="loaded"
                 :chart-data="positivityRateChartData"
@@ -211,7 +212,6 @@ export default {
         label: "Deaths:New Cases 3 Weeks Ago",
         type: 'line',
         borderColor: tinycolor("#12a592").lighten(15).toHexString(),
-        // borderColor: "transparent",
         showLine: false,
         backgroundColor: "transparent",
         borderWidth: 0
@@ -219,6 +219,7 @@ export default {
         data: this.$store.getters.deathsTrailingCasesData['rollingAvgData'],
         label: `Rolling 7 Day Average`,
         type: 'line',
+        spanGaps: false,
         pointRadius: 0,
         borderColor: "#12a592",
         backgroundColor: 'transparent'
