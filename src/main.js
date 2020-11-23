@@ -7,6 +7,11 @@ import axios from 'axios'
 
 axios.defaults.baseURL = 'https://api.covidtracking.com/v1'
 
+import Chart from 'chart.js'
+console.log(Chart.defaults)
+
+// Set chart defaults
+Chart.defaults.global.defaultFontFamily = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
 
 Vue.config.productionTip = false
 

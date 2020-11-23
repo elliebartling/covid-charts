@@ -6,6 +6,7 @@ import map from 'lodash/map'
 import filter from 'lodash/filter'
 import findIndex from 'lodash/findIndex'
 import replace from 'lodash/replace'
+import round from 'lodash/round'
 import moment from 'moment'
 import axios from 'axios'
 
@@ -45,7 +46,7 @@ export const store = new Vuex.Store({
     },
     positivityRateData: (state, getters) => {
       return map(getters.filteredData, (day) => {
-        return (day.positiveIncrease / day.totalTestResultsIncrease) * 100
+        return round((day.positiveIncrease / day.totalTestResultsIncrease) * 100, 2)
       })
     },
     positivityRateRAData: (state, getters) => {
@@ -184,5 +185,5 @@ function rollingAvg(arr) {
     sum += arr[i]
   }
 
-  return sum / length
+  return round(sum / length, 2)
 }
