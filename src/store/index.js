@@ -5,6 +5,7 @@ import flatten from 'lodash/flatten'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import findIndex from 'lodash/findIndex'
+import replace from 'lodash/replace'
 import moment from 'moment'
 import axios from 'axios'
 
@@ -15,27 +16,43 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     dateRange: {
-      start: '20200824',
-      end: '20201122'
+      start: '2020-08-24',
+      end: '2020-11-22'
     },
     data: null,
-    filteredData: null,
+    // filteredData: null,
     dates: null,
-    filteredDates: null,
+    // filteredDates: null,
     rollingAverage: 7,
     loaded: false
   },
   getters: {
     getField,
-    positivityRateData: state => {
-      return map(state.filteredData, (day) => {
+    filteredDates: state => {
+      const start = replace(state.dateRange.start, /-/g, "")
+      const end = replace(state.dateRange.end, /-/g, "")
+
+      return filter(state.dates, (day) => {
+        return start <= day.raw && day.raw <= end
+      })
+    },
+    filteredData: state => {
+      const start = replace(state.dateRange.start, /-/g, "")
+      const end = replace(state.dateRange.end, /-/g, "")
+
+      return filter(state.data, (day) => {
+        return start <= day.date && day.date <= end
+      })
+    },
+    positivityRateData: (state, getters) => {
+      return map(getters.filteredData, (day) => {
         return (day.positiveIncrease / day.totalTestResultsIncrease) * 100
       })
     },
-    positivityRateRAData: state => {
+    positivityRateRAData: (state, getters) => {
       if (state.rollingAverage == 0) return null
 
-      return map(state.filteredData, (day) => {
+      return map(getters.filteredData, (day) => {
         // Find the index of current day in the unfiltered range
         const index = findIndex(state.data, day)
         const values = map(state.data.slice(index - state.rollingAverage, index), (day) => {
@@ -44,15 +61,15 @@ export const store = new Vuex.Store({
         return rollingAvg(values)
       })
     },
-    hospitalizedCurrentlyData: state => {
-      return map(state.filteredData, (day) => {
+    hospitalizedCurrentlyData: (state, getters) => {
+      return map(getters.filteredData, (day) => {
         return day.hospitalizedCurrently
       })
     },
-    hospitalizedCurrentlyRAData: state => {
+    hospitalizedCurrentlyRAData: (state, getters) => {
       if (state.rollingAverage == 0) return null
 
-      return map(state.filteredData, (day) => {
+      return map(getters.filteredData, (day) => {
         // Find the index of current day in the unfiltered range
         const index = findIndex(state.data, day)
         const values = map(state.data.slice(index - state.rollingAverage, index), (day) => {
@@ -61,15 +78,15 @@ export const store = new Vuex.Store({
         return rollingAvg(values)
       })
     },
-    dailyDeathsData: state => {
-      return map(state.filteredData, (day) => {
+    dailyDeathsData: (state, getters) => {
+      return map(getters.filteredData, (day) => {
         return day.deathIncrease
       })
     },
-    dailyDeathsRAData: state => {
+    dailyDeathsRAData: (state, getters) => {
       if (state.rollingAverage == 0) return null
 
-      return map(state.filteredData, (day) => {
+      return map(getters.filteredData, (day) => {
         // Find the index of current day in the unfiltered range
         const index = findIndex(state.data, day)
         const values = map(state.data.slice(index - state.rollingAverage, index), (day) => {
@@ -93,22 +110,26 @@ export const store = new Vuex.Store({
     addHistoricalData (state, data) {
       state.data = data.reverse()
     },
-    filterByDateRange (state) {
-      const filtered = filter(state.data, (day) => {
-        const { start, end } = state.dateRange
-        return start <= day.date && day.date <= end
-      })
-
-      state.filteredData = filtered
-    },
-    filterDatesByDateRange (state) {
-      const filtered = filter(state.dates, (day) => {
-        const { start, end } = state.dateRange
-        return start <= day.raw && day.raw <= end
-      })
-
-      state.filteredDates = filtered
-    }
+    // filterByDateRange (state) {
+    //   const filtered = filter(state.data, (day) => {
+    //     // const { start, end } = replace(state.dateRange, "-", "")
+    //     const start = replace(state.dateRange.start, /-/g, "")
+    //     const end = replace(state.dateRange.end, /-/g, "")
+    //     return start <= day.date && day.date <= end
+    //   })
+    //
+    //   state.filteredData = filtered
+    // },
+    // filterDatesByDateRange (state) {
+    //   const filtered = filter(state.dates, (day) => {
+    //     // const { start, end } = replace(state.dateRange, "-", "")
+    //     const start = replace(state.dateRange.start, /-/g, "")
+    //     const end = replace(state.dateRange.end, /-/g, "")
+    //     return start <= day.raw && day.raw <= end
+    //   })
+    //
+    //   state.filteredDates = filtered
+    // }
   },
   actions: {
     async setInitialData({ commit }) {
@@ -128,8 +149,8 @@ export const store = new Vuex.Store({
 
       commit('addDates', dates)
       commit('addHistoricalData', data)
-      commit('filterByDateRange')
-      commit('filterDatesByDateRange')
+      // commit('filterByDateRange')
+      // commit('filterDatesByDateRange')
       commit('setLoaded')
 
       console.log(data)

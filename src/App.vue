@@ -22,13 +22,13 @@
             <b-form-group class="mr-2" label-for="input-horizontal" label="Start:">
               <b-form-datepicker
                 id="start-datepicker"
-                v-model="dateRange.start"
+                v-model="start"
               ></b-form-datepicker>
             </b-form-group>
             <b-form-group label-for="input-horizontal" label="End:">
               <b-form-datepicker
                 id="end-datepicker"
-                v-model="dateRange.end"
+                v-model="end"
               ></b-form-datepicker>
             </b-form-group>
           </div>
@@ -86,6 +86,7 @@
 <script>
 import LineChart from './components/charts/Line'
 import map from 'lodash/map'
+import replace from 'lodash/replace'
 import { mapState, mapGetters } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
 import tinycolor from 'tinycolor2'
@@ -97,7 +98,6 @@ export default {
   },
   data() {
     return {
-      // rollingAverage: 7,
       rollingAverageOptions: [
         { text: 'None', value: 0 },
         { text: '5-day', value: 5 },
@@ -107,6 +107,15 @@ export default {
     }
   },
   methods: {
+    toggleDateFormat(str) {
+      if (str.includes("-")) {
+        // YYYY-MM-DD -> YYYYMMDD
+        return replace(str, "-", "")
+      } else {
+        // YYYYMMDD -> YYYY-MM-DD
+        return str[0,3] + "-" + str[4,5] + "-" + str[6,7]
+      }
+    },
     getChartData(dataSet, baseColor, label) {
       let chartData = [{
         data: this.$store.getters[dataSet + 'Data'],
@@ -134,16 +143,17 @@ export default {
   },
   computed: {
     ...mapState([
-      'dailyFilteredByDateRange',
-      'daily',
-      'filteredDates',
+      'data',
       'loaded'
     ]),
     ...mapFields([
       'rollingAverage',
-      'dateRange'
+      'dateRange.start',
+      'dateRange.end'
     ]),
     ...mapGetters([
+      'filteredDates',
+      'filteredData',
       'hospitalizedCurrentlyData',
       'hospitalizedCurrentlyRAData',
     ]),
