@@ -97,7 +97,7 @@
             </b-card>
           </div>
         </div>
-        <h3 class="mb-4 mt-5">Calculated Metrics</h3>
+        <h3 class="mb-4 mt-5">Derived Metrics</h3>
         <div class="row">
           <!-- cases (increase), hospitalizations (current), deaths (increases) -->
           <div id="positivity-rate" class="col-6 chart-card">
@@ -105,6 +105,16 @@
               <LineChart
                 v-if="loaded"
                 :chart-data="positivityRateChartData"
+                :chart-dates="filteredDates"
+              />
+            </b-card>
+          </div>
+          <div id="deaths-trailing-cases" class="col-6 chart-card">
+            <b-card title="Case Fatality Ratio">
+              <p class="lead">The ratio of deaths to new cases, trailing 3 weeks.</p>
+              <ScatterChart
+                v-if="loaded"
+                :chart-data="deathsTrailingCasesChartData"
                 :chart-dates="filteredDates"
               />
             </b-card>
@@ -117,6 +127,7 @@
 
 <script>
 import LineChart from './components/charts/Line'
+import ScatterChart from './components/charts/ScatterChart'
 import map from 'lodash/map'
 import replace from 'lodash/replace'
 import { mapState, mapGetters } from 'vuex'
@@ -126,7 +137,8 @@ import tinycolor from 'tinycolor2'
 export default {
   name: 'App',
   components: {
-    LineChart
+    LineChart,
+    ScatterChart
   },
   data() {
     return {
@@ -193,6 +205,30 @@ export default {
       'filteredDates',
       'filteredData'
     ]),
+    deathsTrailingCasesChartData() {
+      let chartData = [{
+        data: this.$store.getters.deathsTrailingCasesData['threeWeeksAgo'],
+        label: "Deaths:New Cases 3 Weeks Ago",
+        type: 'line',
+        borderColor: tinycolor("#12a592").lighten(15).toHexString(),
+        // borderColor: "transparent",
+        showLine: false,
+        backgroundColor: "transparent",
+        borderWidth: 0
+      }, {
+        data: this.$store.getters.deathsTrailingCasesData['rollingAvgData'],
+        label: `Rolling 7 Day Average`,
+        type: 'line',
+        pointRadius: 0,
+        borderColor: "#12a592",
+        backgroundColor: 'transparent'
+      }]
+
+      return {
+        labels: map(this.filteredDates, (d) => { return d.formatted }),
+        datasets: chartData.reverse()
+      }
+    },
     dailyNewCasesChartData() {
       return this.getChartData('dailyNewCases', '#994857', 'Daily New Cases')
     },
@@ -246,5 +282,9 @@ p.lead {
 
 label {
   font-weight: 800;
+}
+
+h4 + .lead {
+  margin-top: -0.7rem;
 }
 </style>

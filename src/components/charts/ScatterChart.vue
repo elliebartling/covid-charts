@@ -1,10 +1,10 @@
 <script>
-	import { Bar, mixins } from 'vue-chartjs'
+	import { Line, mixins } from 'vue-chartjs'
 	const { reactiveProp } = mixins
 	import { mapState } from 'vuex'
 
 	export default {
-		extends: Bar,
+		extends: Line,
 		mixins: [reactiveProp],
 		data() {
 			return {
@@ -14,7 +14,8 @@
 					scales: {
 							yAxes: [{
 									ticks: {
-											beginAtZero: true
+											beginAtZero: true,
+											max: 10
 									}
 							}]
 					},

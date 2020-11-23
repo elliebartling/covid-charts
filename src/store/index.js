@@ -111,6 +111,35 @@ export const store = new Vuex.Store({
         })
         return rollingAvg(values)
       })
+    },
+    deathsTrailingCasesData: (state, getters) => {
+      const threeWeeksAgo = map(getters.filteredData, (day) => {
+        const index = findIndex(state.data, day) - 21
+        const threeWeeksAgoData = state.data[index].positiveIncrease
+
+        if (index > 0 && threeWeeksAgoData > 0) {
+          return {
+            x: day.date,
+            y: round(day.deathIncrease / threeWeeksAgoData * 100, 2)
+          }
+        }
+        return null
+      })
+
+      const rollingAvgData = map(threeWeeksAgo, (day) => {
+        // Find the index of current day in the unfiltered range
+        const index = findIndex(threeWeeksAgo, day)
+        const values = map(threeWeeksAgo.slice(index - 7, index), (day) => {
+          return day?.y ? day.y : null
+          // TODO: remove y-values that are 0
+        })
+        return rollingAvg(values)
+      })
+
+      return {
+        threeWeeksAgo,
+        rollingAvgData
+      }
     }
   },
   mutations: {
@@ -176,7 +205,7 @@ export const store = new Vuex.Store({
 
       console.log(data)
     },
-    quickPickDates ({ state, commit }) {
+    quickPickDates({ state, commit }) {
       let newDates = {
         start: state.dateRange.start,
         end: state.dateRange.end
