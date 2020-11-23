@@ -44,26 +44,28 @@
           </div>
         </div>
 
-        <div id="positivity-rate" class="chart-card">
-          <b-card title="Test Positivity Rate">
-            <LineChart
-              v-if="loaded"
-              :chart-data="positivityRateChartData"
-              :chart-dates="filteredDates"
-            />
-          </b-card>
-        </div>
-        <!-- cases (increase), hospitalizations (current), deaths (increases) -->
-        <div id="hospitalizations" class="chart-card">
-          <b-card title="Hospitalizations">
-            <LineChart
-              v-if="loaded"
-              :chart-data="hospitalizedCurrentlyChartData"
-              :chart-dates="filteredDates"
-            />
-          </b-card>
-        </div>
-        <div id="deaths" class="chart-card">
+
+        <div class="row">
+          <div id="positivity-rate" class="col-6 chart-card">
+            <b-card title="Test Positivity Rate">
+              <LineChart
+                v-if="loaded"
+                :chart-data="positivityRateChartData"
+                :chart-dates="filteredDates"
+              />
+            </b-card>
+          </div>
+          <!-- cases (increase), hospitalizations (current), deaths (increases) -->
+          <div id="hospitalizations" class="col-6 chart-card">
+            <b-card title="Hospitalizations">
+              <LineChart
+                v-if="loaded"
+                :chart-data="hospitalizedCurrentlyChartData"
+                :chart-dates="filteredDates"
+              />
+            </b-card>
+          </div>
+          <div id="deaths" class="col-6 chart-card">
           <b-card title="Daily Deaths">
             <LineChart
               v-if="loaded"
@@ -71,6 +73,7 @@
               :chart-dates="filteredDates"
             />
           </b-card>
+        </div>
         </div>
       </div>
     </div>
@@ -82,6 +85,7 @@ import LineChart from './components/charts/Line'
 import map from 'lodash/map'
 import { mapState, mapGetters } from 'vuex'
 import { mapFields } from 'vuex-map-fields'
+import tinycolor from 'tinycolor2'
 
 export default {
   name: 'App',
@@ -97,6 +101,32 @@ export default {
         { text: '7-day', value: 7 },
         { text: '14-day', value: 14 }
       ]
+    }
+  },
+  methods: {
+    getChartData(dataSet, baseColor, label) {
+      let chartData = [{
+        data: this.$store.getters[dataSet + 'Data'],
+        label,
+        type: 'bar',
+        backgroundColor: tinycolor(baseColor).lighten(35).toHexString()
+      }]
+
+      if (this.rollingAverage > 0) {
+        chartData.push({
+          data: this.$store.getters[dataSet + 'RAData'],
+          label: `${label} ${this.rollingAverage}-day Average`,
+          type: 'line',
+          pointRadius: 0,
+          borderColor: baseColor,
+          backgroundColor: 'transparent'
+        })
+      }
+
+      return {
+        labels: map(this.filteredDates, (d) => { return d.formatted }),
+        datasets: chartData.reverse()
+      }
     }
   },
   computed: {
@@ -115,151 +145,14 @@ export default {
       'hospitalizedCurrentlyRAData',
     ]),
     dailyDeathsChartData() {
-      let chartData = [{
-        data: this.$store.getters.dailyDeathsData,
-        label: "Daily Deaths",
-        borderColor: "#FF6B6B",
-        pointRadius: 0,
-        backgroundColor: "transparent"
-      }]
-
-      if (this.rollingAverage > 0) {
-        chartData.push({
-          data: this.$store.getters.dailyDeathsRAData,
-          label: `Daily Deaths ${this.rollingAverage}-day Average`,
-          borderColor: "#ced4da",
-          pointRadius: 0,
-          backgroundColor: "transparent"
-        })
-      }
-
-      return {
-        labels: map(this.filteredDates, (d) => { return d.formatted }),
-        datasets: chartData
-      }
+      return this.getChartData('dailyDeaths', '#29272b', 'Daily Deaths')
     },
     positivityRateChartData() {
-      let chartData = [{
-        data: this.$store.getters.positivityRateData,
-        label: "Test Positivity Rate",
-        borderColor: "#FF6B6B",
-        pointRadius: 0,
-        backgroundColor: "transparent"
-      }]
-
-      if (this.rollingAverage > 0) {
-        chartData.push({
-          data: this.$store.getters.positivityRateRAData,
-          label: `Test Positivity ${this.rollingAverage}-day Average`,
-          borderColor: "#ced4da",
-          pointRadius: 0,
-          backgroundColor: "transparent"
-        })
-      }
-
-      return {
-        labels: map(this.filteredDates, (d) => { return d.formatted }),
-        datasets: chartData
-      }
+      return this.getChartData('positivityRate', '#994857', 'Positivity Rate')
     },
     hospitalizedCurrentlyChartData() {
-      let chartData = [{
-        data: this.hospitalizedCurrentlyData,
-        label: "Daily Hospitalized",
-        borderColor: "#FF6B6B",
-        pointRadius: 0,
-        backgroundColor: "transparent"
-      }]
-
-      if (this.rollingAverage > 0) {
-        chartData.push({
-          data: this.hospitalizedCurrentlyRAData,
-          label: `Test Positivity ${this.rollingAverage}-day Average`,
-          borderColor: "#ced4da",
-          pointRadius: 0,
-          backgroundColor: "transparent"
-        })
-      }
-
-      return {
-        labels: map(this.filteredDates, (d) => { return d.formatted }),
-        datasets: chartData
-      }
+      return this.getChartData('hospitalizedCurrently', '#246196', 'Daily Hospitalizations')
     },
-    // positivityRateData () {
-    //   const data = map(this.dailyFilteredByDateRange, (day) => {
-    //     return (day.positiveIncrease / day.totalTestResultsIncrease) * 100
-    //   })
-    //
-    //   let chartData = [{
-    //     data,
-    //     label: "Test Positivity Rate",
-    //     borderColor: "#FF6B6B",
-    //     pointRadius: 0,
-    //     backgroundColor: "transparent"
-    //   }]
-    //
-    //   if (this.rollingAverage > 0) {
-    //     const rollingAvgData = map(this.dailyFilteredByDateRange, (day) => {
-    //       // Find the index of current day in the unfiltered range
-    //       const index = findIndex(this.daily, day)
-    //       const values = map(this.daily.slice(index - this.rollingAverage, index), (day) => {
-    //         return (day.positiveIncrease / day.totalTestResultsIncrease) * 100
-    //       })
-    //       return this.rollingAvg(values)
-    //     })
-    //
-    //     chartData.push({
-    //       data: rollingAvgData,
-    //       label: `Test Positivity ${this.rollingAverage}-day Average`,
-    //       borderColor: "#ced4da",
-    //       pointRadius: 0,
-    //       backgroundColor: "transparent"
-    //     })
-    //   }
-    //
-    //   return {
-    //     labels: map(this.filteredDates, (d) => { return d.formatted }),
-    //     datasets: chartData
-    //   }
-    // },
-    // dailyCasesData() {
-    //   const data = map(this.dailyFilteredByDateRange, (day) => {
-    //     return (day.positiveIncrease / day.totalTestResultsIncrease) * 100
-    //   })
-    //
-    //   let chartData = [{
-    //     data,
-    //     label: "Test Positivity Rate",
-    //     borderColor: "#FF6B6B",
-    //     pointRadius: 0,
-    //     backgroundColor: "transparent"
-    //   }]
-    //
-    //   if (this.rollingAverage > 0) {
-    //     const rollingAvgData = map(this.dailyFilteredByDateRange, (day) => {
-    //       // Find the index of current day in the unfiltered range
-    //       const index = findIndex(this.daily, day)
-    //       const values = map(this.daily.slice(index - this.rollingAverage, index), (day) => {
-    //         return (day.positiveIncrease / day.totalTestResultsIncrease) * 100
-    //       })
-    //       return this.rollingAvg(values)
-    //     })
-    //
-    //     chartData.push({
-    //       data: rollingAvgData,
-    //       label: `Test Positivity ${this.rollingAverage}-day Average`,
-    //       borderColor: "#ced4da",
-    //       pointRadius: 0,
-    //       backgroundColor: "transparent"
-    //     })
-    //   }
-    //
-    //   return {
-    //     labels: map(this.filteredDates, (d) => { return d.formatted }),
-    //     datasets: chartData
-    //   }
-    // },
     loaded() {
       return this.$store.state.loaded
     }
@@ -287,7 +180,7 @@ export default {
 }
 
 .chart-card {
-  max-width: 90%;
+  /* max-width: 90%; */
   margin-bottom: 40px;
   /* height: 300px; */
   /* max-height: 200px; */

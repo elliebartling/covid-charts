@@ -1,10 +1,10 @@
 <script>
-  import { Line, mixins } from 'vue-chartjs'
+  import { Bar, mixins } from 'vue-chartjs'
   const { reactiveProp } = mixins
   import { mapState } from 'vuex'
 
   export default {
-    extends: Line,
+    extends: Bar,
     mixins: [reactiveProp],
     data() {
       return {
