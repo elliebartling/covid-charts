@@ -3,10 +3,10 @@
     <div class="row bg-dark text-light mb-5">
       <div id="main" class="col-9">
         <h1>Covid Charts</h1>
-        <p>A website for some interactive charts, based on the CovidTracking website's API.</p>
+        <p class="lead">Interactive charts using CovidTracking.com's new API.</p>
 
         <div id="filters" class="d-flex flex-start">
-          <b-form-group label="Rolling average:" class="mb-1 mt-1">
+          <b-form-group label-for="btn-radios-1" label="Rolling average:" class="mb-1 mt-1">
              <b-form-radio-group
                id="btn-radios-1"
                v-model="rollingAverage"
@@ -18,16 +18,30 @@
              ></b-form-radio-group>
           </b-form-group>
 
-          <div class="d-flex ml-4 mt-1">
+          <div class="d-flex ml-4 mt-1 align-items-center">
+            <b-form-group class="mr-2" label-for="btn-radios-2" label="Date Range:">
+              <b-form-radio-group
+                id="btn-radios-2"
+                v-model="dateQuickPick"
+                :options="dateQuickPickOptions"
+                buttons
+                button-variant="outline-light"
+                size="md"
+                name="radios-btn-default"
+                @change="$store.dispatch('quickPickDates')"
+              ></b-form-radio-group>
+            </b-form-group>
             <b-form-group class="mr-2" label-for="input-horizontal" label="Start:">
               <b-form-datepicker
                 id="start-datepicker"
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
                 v-model="start"
               ></b-form-datepicker>
             </b-form-group>
             <b-form-group label-for="input-horizontal" label="End:">
               <b-form-datepicker
                 id="end-datepicker"
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
                 v-model="end"
               ></b-form-datepicker>
             </b-form-group>
@@ -103,7 +117,12 @@ export default {
         { text: '5-day', value: 5 },
         { text: '7-day', value: 7 },
         { text: '14-day', value: 14 }
-      ]
+      ],
+      dateQuickPickOptions: [
+        { text: 'Last 90 days', value: 90 },
+        { text: 'Last 30 days', value: 30 },
+        { text: 'Since March', value: 1 }
+      ],
     }
   },
   methods: {
@@ -149,7 +168,8 @@ export default {
     ...mapFields([
       'rollingAverage',
       'dateRange.start',
-      'dateRange.end'
+      'dateRange.end',
+      'dateQuickPick'
     ]),
     ...mapGetters([
       'filteredDates',
@@ -206,5 +226,14 @@ export default {
   margin-bottom: 40px;
   /* height: 300px; */
   /* max-height: 200px; */
+}
+
+p.lead {
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+label {
+  font-weight: 800;
 }
 </style>

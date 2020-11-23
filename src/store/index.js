@@ -20,10 +20,9 @@ export const store = new Vuex.Store({
       end: '2020-11-22'
     },
     data: null,
-    // filteredData: null,
     dates: null,
-    // filteredDates: null,
     rollingAverage: 7,
+    dateQuickPick: 90,
     loaded: false
   },
   getters: {
@@ -98,6 +97,10 @@ export const store = new Vuex.Store({
   },
   mutations: {
     updateField,
+    updateDates (state, newDates) {
+      state.dateRange.start = newDates.start
+      state.dateRange.end = newDates.end
+    },
     setLoaded (state) {
       state.loaded = true
     },
@@ -154,6 +157,22 @@ export const store = new Vuex.Store({
       commit('setLoaded')
 
       console.log(data)
+    },
+    quickPickDates ({ state, commit }) {
+      let newDates = {
+        start: state.dateRange.start,
+        end: state.dateRange.end
+      }
+
+      if (state.dateQuickPick > 10) { // i.e., a date calc value
+        newDates.start = moment().subtract(state.dateQuickPick, 'days').format("YYYY-MM-DD")
+        newDates.end = moment().format("YYYY-MM-DD")
+      } else if (state.dateQuickPick == 1) { // Since March 1
+        newDates.start = moment('March 1, 2020').format("YYYY-MM-DD")
+        newDates.end = moment().format("YYYY-MM-DD")
+      }
+
+      commit('updateDates', newDates)
     }
   }
 })
