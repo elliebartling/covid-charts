@@ -1,11 +1,14 @@
 <template>
   <div id="app" class="container-fluid">
-    <div class="row bg-dark text-light mb-5">
+    <div class="row bg-dark text-light px-4 pt-5 pb-0 ">
       <div id="main" class="col-9">
         <h1>Covid Charts</h1>
         <p class="lead">Interactive charts using CovidTracking.com's new API.</p>
-
-        <div id="filters" class="d-flex flex-start">
+      </div>
+    </div>
+    <div class="row bg-dark text-light px-4 py-3 mb-4 sticky-top">
+      <div id="filters" class="col-12">
+        <div class="d-flex flex-start">
           <b-form-group label-for="btn-radios-1" label="Rolling average:" class="mb-1 mt-1">
              <b-form-radio-group
                id="btn-radios-1"
@@ -49,8 +52,7 @@
         </div>
       </div>
     </div>
-
-    <div class="row">
+    <div class="row p-4">
       <div id="left-sidebar" class="col-2">
         <div class="sticky-top">
           <strong>Jump to:</strong>
@@ -198,22 +200,14 @@ export default {
 
 <style>
 #app {
-  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-  /* margin: 30px; */
 }
 
 
 #left-sidebar .sticky-top {
-  top: 280px;
-  padding-left: 17px;
-}
-
-#main {
-  padding: 30px;
+  top: 182px;
+  /* padding-left: 17px; */
 }
 
 .side-nav {
