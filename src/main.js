@@ -4,6 +4,13 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import { store } from './store'
 import './assets/styles/app.scss'
 import axios from 'axios'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(fab)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 axios.defaults.baseURL = 'https://api.covidtracking.com/v1'
 

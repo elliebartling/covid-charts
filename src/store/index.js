@@ -217,6 +217,9 @@ export const store = new Vuex.Store({
       } else if (state.dateQuickPick == 1) { // Since March 1
         newDates.start = moment('March 1, 2020').format("YYYY-MM-DD")
         newDates.end = moment().format("YYYY-MM-DD")
+      } else if (state.dateQuickPick == 2) { // Since March 1
+        newDates.start = moment('April 1, 2020').format("YYYY-MM-DD")
+        newDates.end = moment().format("YYYY-MM-DD")
       }
 
       commit('updateDates', newDates)

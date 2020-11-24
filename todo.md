@@ -12,6 +12,9 @@ _Scatter plot + 7-day average line_
 * then do a 7-day average of those figures
 
 
+## Hospitalization Fatality Rate
+* New deaths / current hospitalization - 7 days
+
 ### Simulated Projections
 * Need daily CFR (take average over last three months), then multiply by daily new cases in previous three weeks -> est. deaths for the next 3 weeks
 

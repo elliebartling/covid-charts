@@ -5,8 +5,10 @@
         <h1>Covid Charts</h1>
         <p class="lead">Interactive charts using CovidTracking.com's new API.</p>
       </div>
-      <div class="col-3">
-
+      <div class="col-3 d-flex align-items-start justify-content-end pt-2">
+        <a class="text-white" href="https://github.com/elliebartling/covid-charts">
+          <font-awesome-icon :icon="['fab', 'github-alt']" size="lg" />
+        </a>
       </div>
     </div>
     <div class="row bg-dark text-light px-4 py-3 mb-4 sticky-top">
@@ -58,11 +60,17 @@
     <div class="row p-4">
       <div id="left-sidebar" class="col-2">
         <div class="sticky-top">
-          <strong>Jump to:</strong>
+          <!-- <p><strong>Jump to:</strong></p> -->
+          <p class="mt-4 mb-0"><strong>Daily Metrics</strong></p>
           <ul class="nav side-nav">
-            <li class="nav-item">Positivity Rate</li>
+            <li class="nav-item">Cases</li>
             <li class="nav-item">Hospitalizations</li>
-            <li class="nav-item">Daily Deaths</li>
+            <li class="nav-item">Deaths</li>
+          </ul>
+          <p class="mt-4 mb-0"><strong>Derived Metrics</strong></p>
+          <ul class="nav side-nav">
+            <li class="nav-item">Test Positivity Rate</li>
+            <li class="nav-item">Case Fatality Rate</li>
           </ul>
         </div>
       </div>
@@ -111,7 +119,7 @@
             </b-card>
           </div>
           <div id="deaths-trailing-cases" class="col-6 chart-card">
-            <b-card title="Case Fatality Ratio">
+            <b-card title="Daily Case Fatality Ratio">
               <p class="lead">The ratio of deaths to new cases, trailing 3 weeks.</p>
               <ScatterChart
                 v-if="loaded"
@@ -121,6 +129,14 @@
             </b-card>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row p-4 mt-5 bt-1">
+      <div class="col d-flex flex-row justify-content-end">
+        <p class="mr-2" >Data from <a href="https://covidtracking.com">CovidTracking</a> •</p>
+        <p class="mr-2">Charts & Data Calculations by Daniel Bier •</p>
+        <p class="mr-2">Code by Ellie Bartling •</p>
+        <p class="mr-2"><a target="_blank" href="https://ellenbartling.typeform.com/to/rr9szvwB">Request a Chart</a></p>
       </div>
     </div>
   </div>
@@ -152,7 +168,8 @@ export default {
       dateQuickPickOptions: [
         { text: 'Last 90 days', value: 90 },
         { text: 'Last 30 days', value: 30 },
-        { text: 'Since March', value: 1 }
+        { text: 'Since March', value: 1 },
+        { text: 'Since April', value: 2 },
       ],
     }
   },
