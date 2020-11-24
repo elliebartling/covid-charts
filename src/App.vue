@@ -1,64 +1,59 @@
 <template>
   <div id="app" class="container-fluid">
-    <div class="row bg-dark text-light px-4 pt-5 pb-0 ">
-      <div id="main" class="col-9">
-        <h1>Covid Charts</h1>
-        <p class="lead">Interactive charts using CovidTracking.com's new API.</p>
-      </div>
-      <div class="col-3 d-flex align-items-start justify-content-end pt-2">
+    <div class="row bg-dark text-light px-1 px-lg-4 pt-5 pb-0 ">
+      <div class="col-12 col-lg-3 d-flex order-lg-2 align-items-start justify-content-end pt-2">
         <a class="text-white" href="https://github.com/elliebartling/covid-charts">
           <font-awesome-icon :icon="['fab', 'github-alt']" size="lg" />
         </a>
       </div>
-    </div>
-    <div class="row bg-dark text-light px-4 py-3 mb-4 sticky-top">
-      <div id="filters" class="col-12">
-        <div class="d-flex flex-start">
-          <b-form-group label-for="btn-radios-1" label="Rolling average:" class="mb-1 mt-1">
-             <b-form-radio-group
-               id="btn-radios-1"
-               v-model="rollingAverage"
-               :options="rollingAverageOptions"
-               buttons
-               button-variant="outline-light"
-               size="md"
-               name="radios-btn-default"
-             ></b-form-radio-group>
-          </b-form-group>
-
-          <div class="d-flex ml-4 mt-1 align-items-center">
-            <b-form-group class="mr-2" label-for="btn-radios-2" label="Date Range:">
-              <b-form-radio-group
-                id="btn-radios-2"
-                v-model="dateQuickPick"
-                :options="dateQuickPickOptions"
-                buttons
-                button-variant="outline-light"
-                size="md"
-                name="radios-btn-default"
-                @change="$store.dispatch('quickPickDates')"
-              ></b-form-radio-group>
-            </b-form-group>
-            <b-form-group class="mr-2" label-for="input-horizontal" label="Start:">
-              <b-form-datepicker
-                id="start-datepicker"
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                v-model="start"
-              ></b-form-datepicker>
-            </b-form-group>
-            <b-form-group label-for="input-horizontal" label="End:">
-              <b-form-datepicker
-                id="end-datepicker"
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                v-model="end"
-              ></b-form-datepicker>
-            </b-form-group>
-          </div>
-        </div>
+      <div id="main" class="col col-lg-9">
+        <h1>Covid Charts</h1>
+        <p class="lead">Interactive charts using CovidTracking.com's new API.</p>
       </div>
     </div>
-    <div class="row p-4">
-      <div id="left-sidebar" class="col-2">
+    <div class="row bg-dark px-1 px-lg-4 py-3 mb-4">
+      <div id="filters" class="bg-dark col text-light sticky-top">
+        <b-form-group style="width:auto" label-for="btn-radios-1" label="Rolling average:" class="mb-1 mr-2">
+           <b-form-radio-group
+             id="btn-radios-1"
+             v-model="rollingAverage"
+             :options="rollingAverageOptions"
+             buttons
+             button-variant="outline-light"
+             size="md"
+             name="radios-btn-default"
+           ></b-form-radio-group>
+        </b-form-group>
+        <b-form-group style="width:auto" class="mr-3 " label-for="btn-radios-2" label="Date Range:">
+          <b-form-radio-group
+            id="btn-radios-2"
+            v-model="dateQuickPick"
+            :options="dateQuickPickOptions"
+            buttons
+            button-variant="outline-light"
+            size="md"
+            name="radios-btn-default"
+            @change="$store.dispatch('quickPickDates')"
+          ></b-form-radio-group>
+        </b-form-group>
+        <b-form-group style="width:auto" class="mr-2" label-for="input-horizontal" label="Start:">
+          <b-form-datepicker
+            id="start-datepicker"
+            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+            v-model="start"
+          ></b-form-datepicker>
+        </b-form-group>
+        <b-form-group style="width:auto" label-for="input-horizontal" label="End:">
+          <b-form-datepicker
+            id="end-datepicker"
+            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+            v-model="end"
+          ></b-form-datepicker>
+        </b-form-group>
+      </div>
+    </div>
+    <div class="row px-1 px-lg-4">
+      <div id="left-sidebar" class="col-2 mb-5">
         <div class="sticky-top">
           <!-- <p><strong>Jump to:</strong></p> -->
           <p class="mt-4 mb-0"><strong>Daily Metrics</strong></p>
@@ -74,10 +69,10 @@
           </ul>
         </div>
       </div>
-      <div class="charts col-10">
+      <div class="charts col-12 col-lg-10">
         <h3 class="mb-4">Daily Numbers</h3>
         <div class="row">
-          <div id="deaths" class="col-6 chart-card">
+          <div id="deaths" class="col-12 col-lg-6 chart-card">
             <b-card title="Cases">
               <LineChart
                 v-if="loaded"
@@ -86,7 +81,7 @@
               />
             </b-card>
           </div>
-          <div id="deaths" class="col-6 chart-card">
+          <div id="deaths" class="col-12 col-lg-6 chart-card">
             <b-card title="Deaths">
               <LineChart
                 v-if="loaded"
@@ -95,7 +90,7 @@
               />
             </b-card>
           </div>
-          <div id="hospitalizations" class="col-6 chart-card">
+          <div id="hospitalizations" class="col-12 col-lg-6 chart-card">
             <b-card title="Hospitalizations">
               <LineChart
                 v-if="loaded"
@@ -108,7 +103,7 @@
         <h3 class="mb-4 mt-5">Derived Metrics</h3>
         <div class="row">
           <!-- cases (increase), hospitalizations (current), deaths (increases) -->
-          <div id="positivity-rate" class="col-6 chart-card">
+          <div id="positivity-rate" class="col-12 col-lg-6 chart-card">
             <b-card title="Test Positivity Rate">
               <p class="lead">The ratio of new positive tests to the total number of new tests.</p>
               <LineChart
@@ -118,7 +113,7 @@
               />
             </b-card>
           </div>
-          <div id="deaths-trailing-cases" class="col-6 chart-card">
+          <div id="deaths-trailing-cases" class="col-12 col-lg-6 chart-card">
             <b-card title="Daily Case Fatality Ratio">
               <p class="lead">The ratio of deaths to new cases, trailing 3 weeks.</p>
               <ScatterChart
@@ -132,7 +127,7 @@
       </div>
     </div>
     <div class="row p-4 mt-5 bt-1">
-      <div class="col d-flex flex-row justify-content-end">
+      <div class="col d-flex flex-column flex-lg-row justify-content-end">
         <p class="mr-2" >Data from <a href="https://covidtracking.com">CovidTracking</a> •</p>
         <p class="mr-2">Charts & Data Calculations by Daniel Bier •</p>
         <p class="mr-2">Code by Ellie Bartling •</p>
@@ -304,5 +299,25 @@ label {
 
 h4 + .lead {
   margin-top: -0.7rem;
+}
+
+#filters {
+  overflow-x: scroll;
+
+  overflow-x: scroll;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: no-wrap;
+  justify-content: start;
+  align-items: start;
+  /* width: 100%; */
+}
+
+.btn-group .btn {
+  white-space: nowrap;
+}
+
+.b-form-btn-label-control.form-control > label {
+  white-space: nowrap !important;
 }
 </style>
