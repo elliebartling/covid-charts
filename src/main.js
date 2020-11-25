@@ -21,7 +21,12 @@ Vue.use(VueScrollTo, {
      offset: -140,
      force: true,
      cancelable: true,
-     onStart: false,
+     onStart: function(element) {
+       const elementHasId = typeof element.id !== 'undefined'
+        if (elementHasId) {
+            history.pushState(null, '', `#${element.id}`)
+        }
+     },
      onDone: false,
      onCancel: false,
      x: false,

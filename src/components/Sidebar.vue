@@ -2,11 +2,11 @@
   <div class="side-nav">
     <template v-for="el in elements">
       <p :key="el.url" class="mt-4 mb-0 section-header">
-        <a href="#" v-scroll-to="`#${el.url}`">{{ el.text }}</a>
+        <a :href="`#${el.url}`" v-scroll-to="`#${el.url}`">{{ el.text }}</a>
       </p>
       <ul :key="`${el.url}-list`" class="nav side-nav">
         <li v-for="c in el.charts" class="nav-item" :key="c.url">
-          <a :key="`${c.url}-link`" href="#" v-scroll-to="`#${c.url}`">{{ c.text }}</a>
+          <a :key="`${c.url}-link`" :href="`#${c.url}`" v-scroll-to="`#${c.url}`">{{ c.text }}</a>
         </li>
       </ul>
     </template>
