@@ -14,11 +14,14 @@ import { getField, updateField } from 'vuex-map-fields'
 
 Vue.use(Vuex)
 
+const today = moment().format('YYYY-MM-DD')
+const ninetyDaysAgo = moment().subtract(90, 'days').format('YYYY-MM-DD')
+
 export const store = new Vuex.Store({
   state: {
     dateRange: {
-      start: '2020-08-24',
-      end: '2020-11-22'
+      start: ninetyDaysAgo,
+      end: today,
     },
     data: null,
     dates: null,

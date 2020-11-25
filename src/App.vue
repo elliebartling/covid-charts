@@ -13,17 +13,6 @@
     </div>
     <div class="row bg-dark px-1 px-lg-4 py-3 mb-4">
       <div id="filters" class="bg-dark col text-light sticky-top">
-        <b-form-group style="width:auto" label-for="btn-radios-1" label="Rolling average:" class="mb-1 mr-2">
-           <b-form-radio-group
-             id="btn-radios-1"
-             v-model="rollingAverage"
-             :options="rollingAverageOptions"
-             buttons
-             button-variant="outline-light"
-             size="md"
-             name="radios-btn-default"
-           ></b-form-radio-group>
-        </b-form-group>
         <b-form-group style="width:auto" class="mr-3 " label-for="btn-radios-2" label="Date Range:">
           <b-form-radio-group
             id="btn-radios-2"
@@ -43,12 +32,23 @@
             v-model="start"
           ></b-form-datepicker>
         </b-form-group>
-        <b-form-group style="width:auto" label-for="input-horizontal" label="End:">
+        <b-form-group class="mr-4" style="width:auto" label-for="input-horizontal" label="End:">
           <b-form-datepicker
             id="end-datepicker"
             :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
             v-model="end"
           ></b-form-datepicker>
+        </b-form-group>
+        <b-form-group style="width:auto" label-for="btn-radios-1" label="Rolling average:" class="mb-1 mr-2">
+           <b-form-radio-group
+             id="btn-radios-1"
+             v-model="rollingAverage"
+             :options="rollingAverageOptions"
+             buttons
+             button-variant="outline-light"
+             size="md"
+             name="radios-btn-default"
+           ></b-form-radio-group>
         </b-form-group>
       </div>
     </div>
@@ -58,9 +58,9 @@
           <!-- <p><strong>Jump to:</strong></p> -->
           <p class="mt-4 mb-0"><strong>Daily Metrics</strong></p>
           <ul class="nav side-nav">
-            <li class="nav-item">Cases</li>
-            <li class="nav-item">Hospitalizations</li>
-            <li class="nav-item">Deaths</li>
+            <li class="nav-item"><a href="#cases">Cases</a></li>
+            <li class="nav-item"><a href="#hospitalizations">Hospitalizations</a></li>
+            <li class="nav-item"><a href="#deaths">Deaths</a></li>
           </ul>
           <p class="mt-4 mb-0"><strong>Derived Metrics</strong></p>
           <ul class="nav side-nav">
@@ -70,9 +70,9 @@
         </div>
       </div>
       <div class="charts col-12 col-lg-10">
-        <h3 class="mb-4">Daily Numbers</h3>
+        <h3 class="mb-4">Daily Metrics</h3>
         <div class="row">
-          <div id="deaths" class="col-12 col-lg-6 chart-card">
+          <div id="cases" class="col-12 col-lg-6 chart-card">
             <b-card title="Cases">
               <LineChart
                 v-if="loaded"
