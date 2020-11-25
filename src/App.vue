@@ -11,8 +11,8 @@
         <p class="lead">Interactive charts using CovidTracking.com's new API.</p>
       </div>
     </div>
-    <div class="row bg-dark px-1 px-lg-4 py-3 mb-4">
-      <div id="filters" class="bg-dark col text-light sticky-top">
+    <div class="row bg-dark px-1 px-lg-4 py-3 mb-4 sticky-top">
+      <div id="filters" class="bg-dark col text-light">
         <b-form-group style="width:auto" class="mr-3 " label-for="btn-radios-2" label="Date Range:">
           <b-form-radio-group
             id="btn-radios-2"
@@ -55,24 +55,14 @@
     <div class="row px-1 px-lg-4">
       <div id="left-sidebar" class="col-2 mb-5">
         <div class="sticky-top">
-          <!-- <p><strong>Jump to:</strong></p> -->
-          <p class="mt-4 mb-0"><strong>Daily Metrics</strong></p>
-          <ul class="nav side-nav">
-            <li class="nav-item"><a href="#cases">Cases</a></li>
-            <li class="nav-item"><a href="#hospitalizations">Hospitalizations</a></li>
-            <li class="nav-item"><a href="#deaths">Deaths</a></li>
-          </ul>
-          <p class="mt-4 mb-0"><strong>Derived Metrics</strong></p>
-          <ul class="nav side-nav">
-            <li class="nav-item">Test Positivity Rate</li>
-            <li class="nav-item">Case Fatality Rate</li>
-          </ul>
+          <Sidebar />
         </div>
       </div>
-      <div class="charts col-12 col-lg-10">
-        <h3 class="mb-4">Daily Metrics</h3>
-        <div class="row">
-          <div id="cases" class="col-12 col-lg-6 chart-card">
+      <div ref="charts" class="charts col-12 col-lg-10">
+        <!-- Section Start -->
+        <h3 id="daily-metrics" class="mb-4 mt-3">Daily Metrics</h3>
+        <div class="row row-cols-1 row-cols-md-2">
+          <div id="cases" class="col chart-card">
             <b-card title="Cases">
               <LineChart
                 v-if="loaded"
@@ -81,7 +71,7 @@
               />
             </b-card>
           </div>
-          <div id="deaths" class="col-12 col-lg-6 chart-card">
+          <div id="deaths" class="col chart-card">
             <b-card title="Deaths">
               <LineChart
                 v-if="loaded"
@@ -90,7 +80,7 @@
               />
             </b-card>
           </div>
-          <div id="hospitalizations" class="col-12 col-lg-6 chart-card">
+          <div id="hospitalizations" class="col chart-card">
             <b-card title="Hospitalizations">
               <LineChart
                 v-if="loaded"
@@ -140,6 +130,7 @@
 <script>
 import LineChart from './components/charts/Line'
 import ScatterChart from './components/charts/ScatterChart'
+import Sidebar from './components/Sidebar'
 import map from 'lodash/map'
 import replace from 'lodash/replace'
 import { mapState, mapGetters } from 'vuex'
@@ -150,7 +141,8 @@ export default {
   name: 'App',
   components: {
     LineChart,
-    ScatterChart
+    ScatterChart,
+    Sidebar
   },
   data() {
     return {
@@ -302,8 +294,6 @@ h4 + .lead {
 }
 
 #filters {
-  overflow-x: scroll;
-
   overflow-x: scroll;
   display: flex;
   flex-direction: row;

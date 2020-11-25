@@ -7,10 +7,26 @@ import axios from 'axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueScrollTo from 'vue-scrollto'
 
 library.add(fab)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+// You can also pass in the default options
+Vue.use(VueScrollTo, {
+     container: "body",
+     duration: 500,
+     easing: "ease",
+     offset: -140,
+     force: true,
+     cancelable: true,
+     onStart: false,
+     onDone: false,
+     onCancel: false,
+     x: false,
+     y: true
+ })
 
 axios.defaults.baseURL = 'https://api.covidtracking.com/v1'
 

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&family=Spectral:wght@700&display=swap');
+// @import 'node_modules/bootstrap-vue/src/variables';
 
 // Typography
 //
@@ -22,6 +23,8 @@ $border-radius-lg:            6px;
 $border-radius-pill:          50rem;
 
 $border-width:                2px;
+
+$link-color: #343a40;
 
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/bootstrap-vue/src/index';
