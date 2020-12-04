@@ -23,11 +23,18 @@ export const store = new Vuex.Store({
       start: ninetyDaysAgo,
       end: today,
     },
-    data: null,
+    data: [],
+    statesData: {},
     dates: null,
     rollingAverage: 7,
     dateQuickPick: 90,
-    loaded: false
+    loaded: false,
+    statesLoaded: false,
+    stateMeta: [],
+    stateSelected: {
+      name: "All",
+      item: "US"
+    }
   },
   getters: {
     getField,
@@ -147,6 +154,15 @@ export const store = new Vuex.Store({
   },
   mutations: {
     updateField,
+    addStateMeta (state, meta) {
+      state.stateMeta = [
+        {
+          name: "All",
+          state: "US"
+        },
+        ...meta
+      ]
+    },
     updateDates (state, newDates) {
       state.dateRange.start = newDates.start
       state.dateRange.end = newDates.end
@@ -154,14 +170,26 @@ export const store = new Vuex.Store({
     setLoaded (state) {
       state.loaded = true
     },
+    setStatesLoaded (state) {
+      state.statesLoaded = true
+    },
     setRollingAverage(state, num) {
       state.rollingAverage = num
     },
     addDates (state, array) {
       state.dates = array.reverse()
     },
-    addHistoricalData (state, data) {
-      state.data = data.reverse()
+    addHistoricalData (state, payload) {
+      state.data = payload.data
+    },
+    addStatesData (state, payload) {
+      console.log("Adding statesData", payload)
+      const { abbr, data, meta } = payload
+
+      state.statesData[abbr] = {
+        ...meta,
+        data
+      }
     },
     // filterByDateRange (state) {
     //   const filtered = filter(state.data, (day) => {
@@ -187,13 +215,18 @@ export const store = new Vuex.Store({
   actions: {
     async setInitialData({ commit }) {
       // Get the data from covidtracking
-      const data = await axios.get('us/daily.json')
+      const usData = await axios.get('us/daily.json')
         .then((response) => {
-          return flatten(response.data)
+          return flatten(response.data).reverse()
+        })
+
+      const stateMeta = await axios.get('/states/info.json')
+        .then((response) => {
+          return response.data
         })
 
       // Format dates
-      const dates = map(data, (day) => {
+      const dates = map(usData, (day) => {
         return {
           formatted: moment(day.date, "YYYYMMDD").format("MM/DD"),
           raw: day.date
@@ -201,12 +234,39 @@ export const store = new Vuex.Store({
       })
 
       commit('addDates', dates)
-      commit('addHistoricalData', data)
-      // commit('filterByDateRange')
-      // commit('filterDatesByDateRange')
+      commit('addHistoricalData', { data: usData })
+      commit('addStateMeta', stateMeta)
+      commit('addStatesData', {
+        abbr: "US",
+        data: usData
+      })
       commit('setLoaded')
+    },
+    async getStateData({ commit, state }, payload) {
+      if (payload.state == undefined) { return }
 
-      console.log(data)
+      let data
+
+      if (state.statesData[payload.state] != undefined) {
+        console.log(`${payload.state} already exists!`, payload)
+        // Grab it from Vuex if it already exists
+        data = state.statesData[payload.state].data
+      } else {
+        // Otherwise, go get it from api
+        data = await axios.get(`states/${payload.state}/daily.json`)
+          .then((response) => {
+            return flatten(response.data).reverse()
+          })
+
+        commit('addStatesData', {
+          abbr: payload.state,
+          data,
+          meta: payload
+        })
+      }
+
+      commit('addHistoricalData', { data })
+      return true
     },
     quickPickDates({ state, commit }) {
       let newDates = {

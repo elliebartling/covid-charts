@@ -1,0 +1,242 @@
+[
+    {
+      "name": "All",
+      "item": "US"
+    },
+    {
+        "name": "Alabama",
+        "item": "AL"
+    },
+    {
+        "name": "Alaska",
+        "item": "AK"
+    },
+    {
+        "name": "American Samoa",
+        "item": "AS"
+    },
+    {
+        "name": "Arizona",
+        "item": "AZ"
+    },
+    {
+        "name": "Arkansas",
+        "item": "AR"
+    },
+    {
+        "name": "California",
+        "item": "CA"
+    },
+    {
+        "name": "Colorado",
+        "item": "CO"
+    },
+    {
+        "name": "Connecticut",
+        "item": "CT"
+    },
+    {
+        "name": "Delaware",
+        "item": "DE"
+    },
+    {
+        "name": "District Of Columbia",
+        "item": "DC"
+    },
+    {
+        "name": "Federated States Of Micronesia",
+        "item": "FM"
+    },
+    {
+        "name": "Florida",
+        "item": "FL"
+    },
+    {
+        "name": "Georgia",
+        "item": "GA"
+    },
+    {
+        "name": "Guam",
+        "item": "GU"
+    },
+    {
+        "name": "Hawaii",
+        "item": "HI"
+    },
+    {
+        "name": "Idaho",
+        "item": "ID"
+    },
+    {
+        "name": "Illinois",
+        "item": "IL"
+    },
+    {
+        "name": "Indiana",
+        "item": "IN"
+    },
+    {
+        "name": "Iowa",
+        "item": "IA"
+    },
+    {
+        "name": "Kansas",
+        "item": "KS"
+    },
+    {
+        "name": "Kentucky",
+        "item": "KY"
+    },
+    {
+        "name": "Louisiana",
+        "item": "LA"
+    },
+    {
+        "name": "Maine",
+        "item": "ME"
+    },
+    {
+        "name": "Marshall Islands",
+        "item": "MH"
+    },
+    {
+        "name": "Maryland",
+        "item": "MD"
+    },
+    {
+        "name": "Massachusetts",
+        "item": "MA"
+    },
+    {
+        "name": "Michigan",
+        "item": "MI"
+    },
+    {
+        "name": "Minnesota",
+        "item": "MN"
+    },
+    {
+        "name": "Mississippi",
+        "item": "MS"
+    },
+    {
+        "name": "Missouri",
+        "item": "MO"
+    },
+    {
+        "name": "Montana",
+        "item": "MT"
+    },
+    {
+        "name": "Nebraska",
+        "item": "NE"
+    },
+    {
+        "name": "Nevada",
+        "item": "NV"
+    },
+    {
+        "name": "New Hampshire",
+        "item": "NH"
+    },
+    {
+        "name": "New Jersey",
+        "item": "NJ"
+    },
+    {
+        "name": "New Mexico",
+        "item": "NM"
+    },
+    {
+        "name": "New York",
+        "item": "NY"
+    },
+    {
+        "name": "North Carolina",
+        "item": "NC"
+    },
+    {
+        "name": "North Dakota",
+        "item": "ND"
+    },
+    {
+        "name": "Northern Mariana Islands",
+        "item": "MP"
+    },
+    {
+        "name": "Ohio",
+        "item": "OH"
+    },
+    {
+        "name": "Oklahoma",
+        "item": "OK"
+    },
+    {
+        "name": "Oregon",
+        "item": "OR"
+    },
+    {
+        "name": "Palau",
+        "item": "PW"
+    },
+    {
+        "name": "Pennsylvania",
+        "item": "PA"
+    },
+    {
+        "name": "Puerto Rico",
+        "item": "PR"
+    },
+    {
+        "name": "Rhode Island",
+        "item": "RI"
+    },
+    {
+        "name": "South Carolina",
+        "item": "SC"
+    },
+    {
+        "name": "South Dakota",
+        "item": "SD"
+    },
+    {
+        "name": "Tennessee",
+        "item": "TN"
+    },
+    {
+        "name": "Texas",
+        "item": "TX"
+    },
+    {
+        "name": "Utah",
+        "item": "UT"
+    },
+    {
+        "name": "Vermont",
+        "item": "VT"
+    },
+    {
+        "name": "Virgin Islands",
+        "item": "VI"
+    },
+    {
+        "name": "Virginia",
+        "item": "VA"
+    },
+    {
+        "name": "Washington",
+        "item": "WA"
+    },
+    {
+        "name": "West Virginia",
+        "item": "WV"
+    },
+    {
+        "name": "Wisconsin",
+        "item": "WI"
+    },
+    {
+        "name": "Wyoming",
+        "item": "WY"
+    }
+]

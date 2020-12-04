@@ -11,7 +11,10 @@
         <p class="lead">Interactive charts using CovidTracking.com's new API.</p>
       </div>
     </div>
-    <div class="row bg-dark px-1 px-lg-4 py-3 mb-4 sticky-top">
+    <div id="filter-wrapper" class="row bg-dark px-1 px-lg-4 py-3 mb-4 sticky-top">
+      <b-form-group style="width:auto" label-for="btn-radios-1" class="ml-3 text-light mb-1 mr-2">
+         <StateSelect />
+      </b-form-group>
       <div id="filters" class="bg-dark col text-light">
         <b-form-group style="width:auto" class="mr-3 " label-for="btn-radios-2" label="Date Range:">
           <b-form-radio-group
@@ -39,7 +42,7 @@
             v-model="end"
           ></b-form-datepicker>
         </b-form-group>
-        <b-form-group style="width:auto" label-for="btn-radios-1" label="Rolling average:" class="mb-1 mr-2">
+        <b-form-group style="width:auto" label-for="btn-radios-1" label="Rolling average:" class="mb-1 mr-4">
            <b-form-radio-group
              id="btn-radios-1"
              v-model="rollingAverage"
@@ -131,6 +134,7 @@
 import LineChart from './components/charts/Line'
 import ScatterChart from './components/charts/ScatterChart'
 import Sidebar from './components/Sidebar'
+import StateSelect from './components/StateSelect'
 import map from 'lodash/map'
 import replace from 'lodash/replace'
 import { mapState, mapGetters } from 'vuex'
@@ -142,7 +146,8 @@ export default {
   components: {
     LineChart,
     ScatterChart,
-    Sidebar
+    Sidebar,
+    StateSelect
   },
   data() {
     return {
@@ -252,6 +257,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('setInitialData')
+    this.$store.dispatch('getStateData', 'ca')
   }
 }
 </script>
@@ -264,7 +270,7 @@ export default {
 
 
 #left-sidebar .sticky-top {
-  top: 182px;
+  top: 142px;
   /* padding-left: 17px; */
 }
 
@@ -300,7 +306,12 @@ h4 + .lead {
   flex-wrap: no-wrap;
   justify-content: start;
   align-items: start;
+  z-index: 5000;
   /* width: 100%; */
+}
+
+#filter-wrapper {
+  z-index: 5000;
 }
 
 .btn-group .btn {
