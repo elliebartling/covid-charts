@@ -125,7 +125,7 @@ export const store = new Vuex.Store({
     deathsTrailingCasesData: (state, getters) => {
       const threeWeeksAgo = map(getters.filteredData, (day) => {
         const index = findIndex(state.data, day) - 21
-        const threeWeeksAgoData = state.data[index].positiveIncrease
+        const threeWeeksAgoData = state.data[index] ? state.data[index].positiveIncrease : null
 
         if (index > 0 && threeWeeksAgoData > 0) {
           return {
@@ -231,7 +231,7 @@ export const store = new Vuex.Store({
           formatted: moment(day.date, "YYYYMMDD").format("MM/DD"),
           raw: day.date
         }
-      })
+      }).reverse()
 
       commit('addDates', dates)
       commit('addHistoricalData', { data: usData })
