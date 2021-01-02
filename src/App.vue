@@ -92,6 +92,15 @@
               />
             </b-card>
           </div>
+          <div id="tests" class="col chart-card">
+            <b-card title="Daily Tests">
+              <LineChart
+                v-if="loaded"
+                :chart-data="dailyTestsChartData"
+                :chart-dates="filteredDates"
+              />
+            </b-card>
+          </div>
         </div>
         <h3 class="mb-4 mt-5">Derived Metrics</h3>
         <div class="row">
@@ -276,6 +285,9 @@ export default {
         labels: map(this.filteredDates, (d) => { return d.formatted }),
         datasets: chartData.reverse()
       }
+    },
+    dailyTestsChartData() {
+      return this.getChartData('dailyTests', '#00a892', 'Daily Tests')
     },
     dailyNewCasesChartData() {
       return this.getChartData('dailyNewCases', '#994857', 'Daily New Cases')
