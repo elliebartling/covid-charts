@@ -110,6 +110,54 @@ export const store = new Vuex.Store({
         return day.deathIncrease
       })
     },
+    hospitalFatalityRate: (state, getters) => {
+      const { data, rollingAverage } = state
+      const { filteredData } = getters
+
+      // Calculate the CFR of the filtered data by mapping
+      // each day of filtered data, and returning that day's
+      // deathIncrease divided by the positiveIncrease from 21 days prior
+      const hospFatalityRatio = map(filteredData, (day) => {
+
+        // Get the array index for data from 21 days ago
+        const index = findIndex(data, day) - 7
+
+        // If we go back in time too far, return null
+        if (index < 0) return null
+
+        // Get positiveIncrease from three weeks ago
+        const posFromThreeWeeksAgo = data[index] ? data[index].hospitalizedCurrently : null
+
+        // Catch divide-by-0 errors
+        if (posFromThreeWeeksAgo > 0) {
+          return {
+            x: day.date,
+            y: round(day.deathIncrease / posFromThreeWeeksAgo * 100, 2)
+          }
+        }
+
+        return null
+      })
+
+      const rollingAvgData = map(hospFatalityRatio, (day) => {
+        // Find the index of current day in the unfiltered range
+        const index = findIndex(hospFatalityRatio, day)
+
+        // Map each day of data into an array of
+        const values = map(
+          hospFatalityRatio.slice(index - rollingAverage, index), (day) => {
+          return day?.y ? day.y : NaN
+          // TODO: remove y-values that are 0
+        })
+
+        return rollingAvg(values)
+      })
+
+      return {
+        hospFatalityRatio,
+        rollingAvgData
+      }
+    },
     dailyDeathsRAData: (state, getters) => {
       if (state.rollingAverage == 0) return null
 

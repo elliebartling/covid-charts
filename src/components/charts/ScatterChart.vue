@@ -10,7 +10,7 @@
 			return {
 				options: {
 					responsive: true,
-					maintainAspectRatio: false,
+					maintainAspectRatio: true,
 					scales: {
 							yAxes: [{
 									ticks: {

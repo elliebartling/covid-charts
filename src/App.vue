@@ -116,6 +116,16 @@
               />
             </b-card>
           </div>
+          <div id="deaths-trailing-hospitaliztions" class="col-12 col-lg-6 chart-card">
+            <b-card title="Hospitalization Case Fatality Ratio">
+              <p class="lead">The ratio of deaths to current hospitalizations, trailing 1 week.</p>
+              <ScatterChart
+                v-if="loaded"
+                :chart-data="deathsTrailingHospitalizationsChartData"
+                :chart-dates="filteredDates"
+              />
+            </b-card>
+          </div>
         </div>
       </div>
     </div>
@@ -215,6 +225,31 @@ export default {
       'filteredDates',
       'filteredData'
     ]),
+    deathsTrailingHospitalizationsChartData() {
+      const data = this.$store.getters.hospitalFatalityRate['hospFatalityRatio'] || 0
+      let chartData = [{
+        data: data,
+        label: "Deaths:New Hospitalizations 1 Week Ago",
+        type: 'line',
+        borderColor: tinycolor("#00629a").lighten(15).toHexString(),
+        showLine: false,
+        backgroundColor: "transparent",
+        borderWidth: 0
+      }, {
+        data: this.$store.getters.hospitalFatalityRate['rollingAvgData'],
+        label: `Rolling ${this.rollingAverage}-day Average`,
+        type: 'line',
+        spanGaps: false,
+        pointRadius: 0,
+        borderColor: "#00629a",
+        backgroundColor: 'transparent'
+      }]
+
+      return {
+        labels: map(this.filteredDates, (d) => { return d.formatted }),
+        datasets: chartData.reverse()
+      }
+    },
     deathsTrailingCasesChartData() {
       const threeWeeksAgo = this.$store.getters.deathsTrailingCasesData['caseFatalityRatio'] || 0
       let chartData = [{
