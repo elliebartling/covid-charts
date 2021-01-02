@@ -126,13 +126,13 @@ export const store = new Vuex.Store({
         if (index < 0) return null
 
         // Get positiveIncrease from three weeks ago
-        const posFromThreeWeeksAgo = data[index] ? data[index].hospitalizedCurrently : null
+        const hospFromThreeWeeksAgo = data[index] ? data[index].hospitalizedCurrently : null
 
         // Catch divide-by-0 errors
-        if (posFromThreeWeeksAgo > 0) {
+        if (hospFromThreeWeeksAgo > 0) {
           return {
             x: day.date,
-            y: round(day.deathIncrease / posFromThreeWeeksAgo * 100, 2)
+            y: round(day.deathIncrease / hospFromThreeWeeksAgo, 2)
           }
         }
 

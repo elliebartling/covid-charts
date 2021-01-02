@@ -22,3 +22,6 @@ _Scatter plot + 7-day average line_
 ## Other Todo
 - Make Y-axis always start at 0
 - Make CFR conform to global rolling averages
+
+
+- Cumulative deaths vs. Cumulative hospitalizations

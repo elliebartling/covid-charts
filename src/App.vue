@@ -111,6 +111,7 @@
               <p class="lead">The ratio of deaths to new cases, trailing 3 weeks.</p>
               <ScatterChart
                 v-if="loaded"
+                :max="10"
                 :chart-data="deathsTrailingCasesChartData"
                 :chart-dates="filteredDates"
               />
@@ -121,6 +122,7 @@
               <p class="lead">The ratio of deaths to current hospitalizations, trailing 1 week.</p>
               <ScatterChart
                 v-if="loaded"
+                :max="1"
                 :chart-data="deathsTrailingHospitalizationsChartData"
                 :chart-dates="filteredDates"
               />
