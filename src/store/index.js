@@ -123,31 +123,50 @@ export const store = new Vuex.Store({
       })
     },
     deathsTrailingCasesData: (state, getters) => {
-      const threeWeeksAgo = map(getters.filteredData, (day) => {
-        const index = findIndex(state.data, day) - 21
-        const threeWeeksAgoData = state.data[index] ? state.data[index].positiveIncrease : null
+      const { data, rollingAverage } = state
+      const { filteredData } = getters
 
-        if (index > 0 && threeWeeksAgoData > 0) {
+      // Calculate the CFR of the filtered data by mapping
+      // each day of filtered data, and returning that day's
+      // deathIncrease divided by the positiveIncrease from 21 days prior
+      const caseFatalityRatio = map(filteredData, (day) => {
+
+        // Get the array index for data from 21 days ago
+        const index = findIndex(data, day) - 21
+
+        // If we go back in time too far, return null
+        if (index < 0) return null
+
+        // Get positiveIncrease from three weeks ago
+        const posFromThreeWeeksAgo = data[index] ? data[index].positiveIncrease : null
+
+        // Catch divide-by-0 errors
+        if (posFromThreeWeeksAgo > 0) {
           return {
             x: day.date,
-            y: round(day.deathIncrease / threeWeeksAgoData * 100, 2)
+            y: round(day.deathIncrease / posFromThreeWeeksAgo * 100, 2)
           }
         }
+
         return null
       })
 
-      const rollingAvgData = map(threeWeeksAgo, (day) => {
+      const rollingAvgData = map(caseFatalityRatio, (day) => {
         // Find the index of current day in the unfiltered range
-        const index = findIndex(threeWeeksAgo, day)
-        const values = map(threeWeeksAgo.slice(index - 7, index), (day) => {
+        const index = findIndex(caseFatalityRatio, day)
+
+        // Map each day of data into an array of
+        const values = map(
+          caseFatalityRatio.slice(index - rollingAverage, index), (day) => {
           return day?.y ? day.y : NaN
           // TODO: remove y-values that are 0
         })
+
         return rollingAvg(values)
       })
 
       return {
-        threeWeeksAgo,
+        caseFatalityRatio,
         rollingAvgData
       }
     }

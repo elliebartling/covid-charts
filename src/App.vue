@@ -216,10 +216,10 @@ export default {
       'filteredData'
     ]),
     deathsTrailingCasesChartData() {
-      const threeWeeksAgo = this.$store.getters.deathsTrailingCasesData['threeWeeksAgo'] || 0
+      const threeWeeksAgo = this.$store.getters.deathsTrailingCasesData['caseFatalityRatio'] || 0
       let chartData = [{
         data: threeWeeksAgo,
-        label: "Deaths:New Cases 3 Weeks Ago",
+        label: "Deaths: New Cases 3 Weeks Ago",
         type: 'line',
         borderColor: tinycolor("#12a592").lighten(15).toHexString(),
         showLine: false,
@@ -227,7 +227,7 @@ export default {
         borderWidth: 0
       }, {
         data: this.$store.getters.deathsTrailingCasesData['rollingAvgData'],
-        label: `Rolling 7 Day Average`,
+        label: `Rolling ${this.rollingAverage}-day Average`,
         type: 'line',
         spanGaps: false,
         pointRadius: 0,
