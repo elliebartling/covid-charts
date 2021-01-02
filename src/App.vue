@@ -122,7 +122,7 @@
               <p class="lead">The ratio of deaths to current hospitalizations, trailing 1 week.</p>
               <ScatterChart
                 v-if="loaded"
-                :max="1"
+                :max="0.3"
                 :chart-data="deathsTrailingHospitalizationsChartData"
                 :chart-dates="filteredDates"
               />

@@ -6,16 +6,27 @@
 	export default {
 		extends: Line,
 		mixins: [reactiveProp],
-		data() {
-			return {
-				options: {
+		props: ['max'],
+		// data() {
+		// 	return {
+		// 		options:
+		// 	}
+		// },
+		computed: {
+			...mapState(['filteredDates']),
+			dates() {
+				return this.filteredDates.map(d => d.formatted)
+			},
+			options() {
+				console.log(this.max)
+				return {
 					responsive: true,
 					maintainAspectRatio: true,
 					scales: {
 							yAxes: [{
 									ticks: {
 											beginAtZero: true,
-											max: this.props.max
+											max: this.max
 									}
 							}]
 					},
@@ -41,12 +52,6 @@
 						borderWidth: 0
 					}
 				}
-			}
-		},
-		computed: {
-			...mapState(['filteredDates']),
-			dates() {
-				return this.filteredDates.map(d => d.formatted)
 			}
 		},
 		methods: {

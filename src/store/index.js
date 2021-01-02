@@ -132,7 +132,7 @@ export const store = new Vuex.Store({
         if (hospFromThreeWeeksAgo > 0) {
           return {
             x: day.date,
-            y: round(day.deathIncrease / hospFromThreeWeeksAgo, 2)
+            y: round(day.deathIncrease / hospFromThreeWeeksAgo, 5)
           }
         }
 
@@ -150,7 +150,7 @@ export const store = new Vuex.Store({
           // TODO: remove y-values that are 0
         })
 
-        return rollingAvg(values)
+        return rollingAvg(values, 5)
       })
 
       return {
@@ -357,12 +357,12 @@ export const store = new Vuex.Store({
   }
 })
 
-function rollingAvg(arr) {
+function rollingAvg(arr, r = 2) {
   const length = arr.length
   let sum = 0
   for (let i=0; i < length; i++) {
     sum += arr[i]
   }
 
-  return round(sum / length, 2)
+  return round(sum / length, r)
 }
