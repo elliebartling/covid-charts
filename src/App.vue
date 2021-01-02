@@ -56,7 +56,7 @@
       </div>
     </div>
     <div class="row px-1 px-lg-4">
-      <div id="left-sidebar" class="col-2 mb-5">
+      <div id="left-sidebar" class="col-12 col-md-2 mb-5">
         <div class="sticky-top">
           <Sidebar />
         </div>
@@ -290,6 +290,8 @@ export default {
 p.lead {
   font-weight: 400;
   opacity: 0.8;
+  line-height: 1.2;
+  font-size: 1rem;
 }
 
 label {
@@ -297,7 +299,7 @@ label {
 }
 
 h4 + .lead {
-  margin-top: -0.7rem;
+  margin-top: -0.2rem;
 }
 
 #filters {

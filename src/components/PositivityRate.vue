@@ -1,7 +1,5 @@
 <template>
-  <div id="pos-rate">
-    <h3>Positivity Rate</h3>
-  </div>
+
 </template>
 
 
